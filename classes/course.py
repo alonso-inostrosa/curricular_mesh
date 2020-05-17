@@ -7,4 +7,4 @@ class Course:
         self.fail_chance = fail_chance
 
     def __str__(self):
-        return (super().__str__() + " - " + self.name + ", " + str(self.level))
+        return (super().__str__() + " - CourseName=" + self.name + ", CourseLevel=" + str(self.level))
