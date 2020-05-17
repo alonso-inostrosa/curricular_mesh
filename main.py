@@ -9,7 +9,5 @@ if __name__ == "__main__":
     infocursos = load_data("./input_files/curricular_mesh.json")
     print(infocursos)
 
-
-
     #comenzar simulacion en anio/semestre por duration semestres
     simulate(infodata["init_year"], infodata["init_semester"], infodata["duration"])
