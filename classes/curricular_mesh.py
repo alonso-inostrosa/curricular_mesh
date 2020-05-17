@@ -5,13 +5,18 @@ class CurricularMesh:
 
     def __init__(self, mesh_data):
         self.career = mesh_data["career"]
+        self.list_of_courses = mesh_data["courses"] #List of every course (info) in the mesh (as on the file)
+
         self.courses_by_name = dict()
-        self.list_of_courses = mesh_data["courses"] #List of every course in the mesh (as on the file)
         self.courses_by_semester = {new_list: [] for new_list in range(1,3)}
         self.mesh = {new_list: [] for new_list in range(1,mesh_data["duration"]+1)}
-        self.courses_by_level = {new_list: [] for new_list in range(1,mesh_data["duration"]+1)}
+        self.courses_by_level = {new_list: [] for new_list in range(mesh_data["duration"]+1)} #considers level 0 (admission)
 
     def build_curricular_mesh(self):
+        #Marks the career begining
+        self.courses_by_level[0] = Course("Ingreso", 0)
+        self.courses_by_name[self.courses_by_level[0].name] = self.courses_by_level[0]
+
         for course_item in self.list_of_courses:
             #Course by name (dictionary)
             course = Course(course_item["name"],course_item["level"])
@@ -29,9 +34,6 @@ class CurricularMesh:
 
             #self.mesh[course["level"]].append(course)
 
-
-        #print(self.semesters)
-        #print(self.courses_by_semester)
-
-        # using dictionary comprehension to construct 
-        # new_dict = {new_list: [] for new_list in range(4)} 
+        #Sets the first courses upon admission
+        for course_item in self.courses_by_level[1]:
+            self.courses_by_level[0].next_courses.append(course_item)
