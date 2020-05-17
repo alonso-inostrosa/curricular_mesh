@@ -1,14 +1,29 @@
 {
     "career" : "ICCI",
+    "duration" : 3,
     "courses":[
         {
             "name":"Uno",
             "level":1,
-            "prerequisites":""
+            "prerequisites":"",
+            "fail_chance":0.2
         },
         {
-            "name":"Dos",
+            "name":"DosA",
             "level":2,
-            "prerequisites":"Uno"
+            "prerequisites":["Uno"],
+            "fail_chance":0.5
+        },
+        {
+            "name":"DosB",
+            "level":2,
+            "prerequisites":["Uno"],
+            "fail_chance":0.25
+        },
+        {
+            "name":"Tres",
+            "level":3,
+            "prerequisites":["DosA","DosB"],
+            "fail_chance":0.5
         }]
 }

@@ -1,3 +1,4 @@
+# Create a list of year/semester of lenght duration (i.e: 2013/1, 2013/2, 2014/1, ...)
 def my_semesters(init_year, init_semester, duration):
     semesters=[]
     for i in range(duration):
@@ -16,5 +17,5 @@ def simulate_semester():
 def simulate(init_year, init_semester, duration):
     print("Starting simulation from:" + str(init_year) + "/" + str(init_semester) + " for:" + str(duration) + " semesters")
     for i in my_semesters( init_year, init_semester, duration):
-        print(i)
+        #print(i)
         simulate_semester()

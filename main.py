@@ -10,7 +10,8 @@ if __name__ == "__main__":
     infocursos = load_data("./input_files/curricular_mesh.json")
 
     #Cargar la malla de cursos
-    malla = CurricularMesh(infocursos["career"])
+    malla = CurricularMesh(infocursos)
+    malla.build_curricular_mesh()
 
     #comenzar simulacion en anio/semestre por duration semestres
-    simulate(infodata["init_year"], infodata["init_semester"], infodata["duration"])
+    #simulate(infodata["init_year"], infodata["init_semester"], infodata["sim_duration"])
