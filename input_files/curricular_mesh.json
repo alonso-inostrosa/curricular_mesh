@@ -1,0 +1,14 @@
+{
+    "career" : "ICCI",
+    "courses":[
+        {
+            "name":"Uno",
+            "level":1,
+            "prerequisites":""
+        },
+        {
+            "name":"Dos",
+            "level":2,
+            "prerequisites":"Uno"
+        }]
+}

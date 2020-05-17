@@ -1,0 +1,1 @@
+Para activar environment: $source env/bin/activate
