@@ -19,6 +19,7 @@ class CurricularMesh:
         """
 
         self.career = mesh_data["career"]
+        self.duration = mesh_data["duration"] #Doesn't consider admission and graduation
         self.list_of_courses_data = mesh_data["courses"] #List of every course (info) in the mesh (as on the file)
 
         self.courses_by_name = dict() #Hold pairs of "Course Name" keys and References to the Course Object.
@@ -28,7 +29,11 @@ class CurricularMesh:
 
         #Courses organized by the semester they are tought.
         # Semester 0 is the admission process, leads to first level courses.
-        self.courses_by_level = {new_list: [] for new_list in range(mesh_data["duration"]+1)}
+        # Semester duration+1 is the last semester
+        # Semester duration+2 is the graduation semester
+        self.courses_by_level = {new_list: [] for new_list in range(mesh_data["duration"]+2)}
+
+
 
 
     def build_curricular_mesh(self):
@@ -36,8 +41,8 @@ class CurricularMesh:
         """
 
         #Marks the career begining
-        self.courses_by_level[0] = Course("Ingreso", 0)
-        self.courses_by_name[self.courses_by_level[0].name] = self.courses_by_level[0]
+        #self.courses_by_level[0] = Course("Admision", 0)
+        #self.courses_by_name[self.courses_by_level[0].name] = self.courses_by_level[0]
 
         #Links course objects and its prerequisites
         #Organize course objects by level and by the semester they are tought
@@ -46,11 +51,13 @@ class CurricularMesh:
             course = Course(course_item["name"],course_item["level"])
             self.courses_by_name[course.name] = course
 
-            #Courses tought in each semester (1st or 2nd)
-            self.courses_by_semester[self.semesters[course_item["level"]%2]].append(course)
+            #Courses tought in each semester (1st or 2nd), does not consider admission nor graduation
+            if course.level not in [0,self.duration]:
+                self.courses_by_semester[self.semesters[course_item["level"]%2]].append(course)
 
             #Courses according to their level (1, 2,...,n)
             self.courses_by_level[course_item["level"]].append(course)
+            #print("Level: " + str(course_item["level"]) + " - Course: " + str(course))
 
             #Set prerequisites for each course
             for prereq in course_item["prerequisites"]:
@@ -63,6 +70,9 @@ class CurricularMesh:
                 prereq_course.next_courses.append(self.courses_by_name[course_name])
 
         #Sets the first courses upon admission
-        for course_item in self.courses_by_level[1]:
-            self.courses_by_level[0].next_courses.append(course_item)
+        #for course_item in self.courses_by_level[1]:
+        #    self.courses_by_level[0].next_courses.append(course_item)
 
+
+        #self.courses_by_level[0] = Course("Egreso", self.duration+1)
+        #self.courses_by_name[self.courses_by_level[0].name] = self.courses_by_level[0]

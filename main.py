@@ -18,7 +18,7 @@ if __name__ == "__main__":
     malla = CurricularMesh(infocursos)
     malla.build_curricular_mesh()
 
-    print_mesh( malla.courses_by_level[0])
+    print_mesh( malla.courses_by_level[0][0] )
 
     #comenzar simulacion en anio/semestre por duration semestres
     #simulate(infodata["init_year"], infodata["init_semester"], infodata["sim_duration"])

@@ -1,29 +1,34 @@
 {
     "career" : "ICCI",
-    "duration" : 3,
+    "duration" : 3, 
     "courses":[
         {
-            "name":"Uno_0",
+            "name":"Admision",
+            "level":0,
+            "prerequisites":[],
+            "fail_chance":0
+        },{
+            "name":"UnoA",
             "level":1,
-            "prerequisites":"",
+            "prerequisites":["Admision"],
             "fail_chance":0.2
         },
         {
-            "name":"Uno",
+            "name":"UnoB",
             "level":1,
-            "prerequisites":"",
+            "prerequisites":["Admision"],
             "fail_chance":0.2
         },
         {
             "name":"DosA",
             "level":2,
-            "prerequisites":["Uno"],
+            "prerequisites":["UnoA"],
             "fail_chance":0.5
         },
         {
             "name":"DosB",
             "level":2,
-            "prerequisites":["Uno"],
+            "prerequisites":["UnoA"],
             "fail_chance":0.25
         },
         {
@@ -31,5 +36,12 @@
             "level":3,
             "prerequisites":["DosA","DosB"],
             "fail_chance":0.5
-        }]
+        },
+        {
+            "name":"Graduation",
+            "level":4,
+            "prerequisites":["UnoB","Tres"],
+            "fail_chance":0.5
+        }
+    ]
 }
