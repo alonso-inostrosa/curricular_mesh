@@ -1,24 +1,18 @@
 from util import load_data
-from simulator import *
-from classes.course import *
-from classes.curricular_mesh import *
+from classes.simulator import *
+from classes.course import Course
 
-def print_mesh(course):
-    print("Course: " + course.name)
-    for n in course.next_courses:
-        print_mesh(n)
+
+
 
 if __name__ == "__main__":
     #Cargar datos desde archivo json
-    infodata = load_data("./input_files/data.json")
+    info_data = load_data("./input_files/data.json")
+    info_students = load_data("./input_files/students_profiles.json")
+    info_courses = load_data("./input_files/curricular_mesh.json")
 
-    infocursos = load_data("./input_files/curricular_mesh.json")
-
-    #Cargar la malla de cursos
-    malla = CurricularMesh(infocursos)
-    malla.build_curricular_mesh()
-
-    print_mesh( malla.courses_by_level[0][0] )
+    #print_mesh( malla.courses_by_level[0][0] )
 
     #comenzar simulacion en anio/semestre por duration semestres
-    #simulate(infodata["init_year"], infodata["init_semester"], infodata["sim_duration"])
+    sim = Simulator(info_data, info_students, info_courses)
+    sim.simulate()

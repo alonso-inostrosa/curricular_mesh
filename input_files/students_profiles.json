@@ -1,0 +1,40 @@
+{
+    "students_profiles" : [
+        {
+            "student_type":0,
+            "course_type_skills" : [
+                {
+                    "course_type":1,
+                    "fail_chance": 0.02
+                },
+                {
+                    "course_type":2,
+                    "fail_chance": 0.01
+                },
+                {
+                    "course_type":3,
+                    "fail_chance": 0.09
+                }
+            ],
+            "quantity" : 2
+        },
+        {
+            "student_type":1,
+            "course_type_skills" : [
+                {
+                    "course_type":1,
+                    "fail_chance": 0.01
+                },
+                {
+                    "course_type":2,
+                    "fail_chance": 0.006
+                },
+                {
+                    "course_type":3,
+                    "fail_chance": 0.065
+                }
+            ],
+            "quantity" : 4
+        }
+    ]
+}

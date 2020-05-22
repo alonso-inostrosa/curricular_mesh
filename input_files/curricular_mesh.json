@@ -5,41 +5,48 @@
         {
             "name":"Admision",
             "level":0,
+            "course_type" : 0,
             "prerequisites":[],
             "fail_chance":0
         },{
             "name":"UnoA",
             "level":1,
+            "course_type" : 1,
             "prerequisites":["Admision"],
             "fail_chance":0.2
         },
         {
             "name":"UnoB",
             "level":1,
+            "course_type" : 1,
             "prerequisites":["Admision"],
             "fail_chance":0.2
         },
         {
             "name":"DosA",
             "level":2,
+            "course_type" : 2,
             "prerequisites":["UnoA"],
             "fail_chance":0.5
         },
         {
             "name":"DosB",
             "level":2,
+            "course_type" : 3,
             "prerequisites":["UnoA"],
             "fail_chance":0.25
         },
         {
             "name":"Tres",
             "level":3,
+            "course_type" : 3,
             "prerequisites":["DosA","DosB"],
             "fail_chance":0.5
         },
         {
             "name":"Graduation",
             "level":4,
+            "course_type" : 4,
             "prerequisites":["UnoB","Tres"],
             "fail_chance":0.5
         }

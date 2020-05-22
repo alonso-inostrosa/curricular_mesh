@@ -1,7 +1,8 @@
 class Course:
-    def __init__(self, name, level, fail_chance = 0.0):
+    def __init__(self, name, level, course_type, fail_chance = 0.0):
         self.name = name
         self.level = level
+        self.course_type = course_type
         self.prerequisites = []
         self.next_courses = []
         self.fail_chance = fail_chance

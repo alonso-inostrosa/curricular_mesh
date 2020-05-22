@@ -1,4 +1,5 @@
 from classes.course import Course
+from classes.student import Student
 
 class CurricularMesh:
     semesters = {0:2,1:1}
@@ -33,6 +34,7 @@ class CurricularMesh:
         # Semester duration+2 is the graduation semester
         self.courses_by_level = {new_list: [] for new_list in range(mesh_data["duration"]+2)}
 
+        self.admission = None
 
 
 
@@ -48,7 +50,7 @@ class CurricularMesh:
         #Organize course objects by level and by the semester they are tought
         for course_item in self.list_of_courses_data:
             #Course by name (dictionary)
-            course = Course(course_item["name"],course_item["level"])
+            course = Course(course_item["name"],course_item["level"],course_item["course_type"])
             self.courses_by_name[course.name] = course
 
             #Courses tought in each semester (1st or 2nd), does not consider admission nor graduation
@@ -63,15 +65,15 @@ class CurricularMesh:
             for prereq in course_item["prerequisites"]:
                 course.prerequisites.append(self.courses_by_name[prereq])
 
+        #Defines the admission and set it as course on the mesh
+        self.admission = self.courses_by_level[0][0]
+
         #Set next courses of each course. I.e: sets which courses the current course is a prerequisite of.
         for course_name in self.courses_by_name:
             for prereq_course in self.courses_by_name[course_name].prerequisites:
                 #print(prereq_course.name + " -> " + self.courses_by_name[course_name].name)
                 prereq_course.next_courses.append(self.courses_by_name[course_name])
 
-        #Sets the first courses upon admission
-        #for course_item in self.courses_by_level[1]:
-        #    self.courses_by_level[0].next_courses.append(course_item)
 
 
         #self.courses_by_level[0] = Course("Egreso", self.duration+1)
