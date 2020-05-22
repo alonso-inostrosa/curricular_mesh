@@ -40,7 +40,7 @@ class Simulator:
     def load_students_by_profile(self, year_admission, semester_admission):
         student_dict = dict()
         for student_profile in self.info_students_data["students_profiles"]:
-            for i in range(0, student_profile["quantity"]):
+            for _ in range(0, student_profile["quantity"]):
                 student_dict[self.id_to_students] = Student(self.id_to_students, student_profile, year_admission, semester_admission)
                 self.id_to_students += 1
         return student_dict
@@ -63,7 +63,7 @@ class Simulator:
         #print_mesh(admission)
 
 
-
+        #Semester begin in 1
         for semester in range(1,self.duration+1):
 
             # Create/Load first year students, and assign to addmission "course"
