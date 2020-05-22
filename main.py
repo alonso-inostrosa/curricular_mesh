@@ -1,5 +1,5 @@
 from util import load_data
-from classes.simulator import *
+from classes.simulator import Simulator
 from classes.course import Course
 
 
