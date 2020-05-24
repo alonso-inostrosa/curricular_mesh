@@ -1,3 +1,6 @@
+import random
+from classes.student import Student
+
 class Course:
     def __init__(self, name, level, course_type, fail_chance = 0.0):
         self.name = name
@@ -26,6 +29,24 @@ class Course:
         self.total_expelled = 0 #Total of students that were expelled by failing this course
 
 
+    def simulate_final(self):
+        print("Simulando aprobacion estudiantes curso " + self.name + " - qty:" + str(len(self.current_students)) + " - course_type:" + str(self.course_type))
+        
+        #Simulating aproved/failed
+        approved = list()
+        failed = list()
+        for student_key in self.current_students.keys():
+            chance_fail = self.current_students[student_key].course_type_skills[self.course_type-1]["fail_chance"]
+            #Approves?
+            nbr = random.uniform(0,1)
+            if( nbr > chance_fail):
+                #print("Approve:" + str(self.current_students[ student_key ]) + " nbr=" + str(nbr) + " chance fail:" + str(chance_fail))
+                approved.append(self.current_students[ student_key ])
+            else:
+                #print("Fail:" + str(self.current_students[ student_key ]) + " nbr=" + str(nbr) + " chance fail:" + str(chance_fail))
+                failed.append(self.current_students[ student_key ])
+
+        return approved, failed
 
     def __str__(self):
         return (super().__str__() + " - CourseName=" + self.name + ", CourseLevel=" + str(self.level))

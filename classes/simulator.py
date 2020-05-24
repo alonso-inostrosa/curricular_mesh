@@ -45,32 +45,66 @@ class Simulator:
                 self.id_to_students += 1
         return student_dict
 
-    def simulate_semester(self):
+
+    # Simulate semester considering courses are tought one semester a year
+    def simulate_semester(self, semester_to_simulate, semester_name):
+        semester_number = 1 if semester_to_simulate % 2 == 1 else 2
+        print("Simulating semester:" + str(semester_to_simulate) + " - Semester Number:" + str(semester_number) +  " - Semester Name:" + semester_name)
+        
+        #If semester is 1, move admission students to first semester courses
+        if semester_number == 1:
+            for courses in self.curricular_mesh.admission.next_courses:
+                admission_students = self.curricular_mesh.admission.current_students
+                courses.current_students.update(admission_students)
+
+        #Iterating over courses of the current semester
+        semester_courses = self.curricular_mesh.courses_by_semester
+        for course in semester_courses[semester_number]:
+            # Detemine failed and approved students
+            # Obtain approved and failed students as lists
+            approved, failed = course.simulate_final()
+            
+        
+
+        #OK:    for each course (depending of the semester (first/second)), do:
+        #OK:    Detemine failed and approved students                          
+        #   Approved are moved (added to the new, removed from current) to a
+        #           transitory list at the current course.
+        #   Failed students remain in the students list of the current course.
+        #   Approved students are moved to the incomplete_prerequisites dict() and
+        #       if prerequisites for the course are satisfied by the students, they
+        #       are moved to the current students list (now containing failed and new
+        #       (approved previous course))
+
 
         return 0
 
     def simulate(self):
         print("Starting simulation from:" + str(self.init_year) + "/" + str(self.init_semester) + " for:" + str(self.duration) + " semesters")
-
         #Generate a list of pairs Year/Semesters. I.e: 2020/1, 2020/2, ...
         semesters = my_semesters(self.init_year, self.init_semester, self.duration)
 
         #Build the career curricular mesh
         self.curricular_mesh.build_curricular_mesh()
 
-        #Displays the curricular mesh
-        admission = self.curricular_mesh.admission
-        #print_mesh(admission)
-
+        #Displays the curricular mesh starting from admission
+        #print_mesh(self.curricular_mesh.admission)
 
         #Semester begin in 1
         for semester in range(1,self.duration+1):
-
+            print("Attempting to simulate semester " + semesters[semester])
+            # Admission
             # Create/Load first year students, and assign to addmission "course"
             if semester % 2 == 1:
-                admission.current_students = self.load_students_by_profile( self.init_year, self.init_semester)
-                print("Semester " + semesters[semester] + " i=" + str(semester) + " - admitted " + str(len(admission.current_students)))
-                
-                
+                self.curricular_mesh.admission.current_students = self.load_students_by_profile( self.init_year, self.init_semester)
+                #print("Semester " + semesters[semester] + " i=" + str(semester) + " - admitted " + str(len(self.curricular_mesh.admission.current_students)))
 
-            #self.simulate_semester()
+            self.simulate_semester(semester, semesters[semester])
+
+            # Graduation
+
+        print("***********")
+        for sem in self.curricular_mesh.courses_by_semester.keys():
+            print("Semester " + str(sem))
+            for course in self.curricular_mesh.courses_by_semester[sem]:
+                print( "Curso:" + course.name + " - Level:" + str(course.name))

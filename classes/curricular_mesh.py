@@ -53,8 +53,10 @@ class CurricularMesh:
             course = Course(course_item["name"],course_item["level"],course_item["course_type"])
             self.courses_by_name[course.name] = course
 
-            #Courses tought in each semester (1st or 2nd), does not consider admission nor graduation
-            if course.level not in [0,self.duration]:
+            #Courses tought in each semester (1st or 2nd)
+            #are stored in a dict(semester(1|2), list of courses)
+            #does not consider admission nor graduation
+            if course.level not in [0,self.duration+1]:
                 self.courses_by_semester[self.semesters[course_item["level"]%2]].append(course)
 
             #Courses according to their level (1, 2,...,n)
@@ -73,8 +75,3 @@ class CurricularMesh:
             for prereq_course in self.courses_by_name[course_name].prerequisites:
                 #print(prereq_course.name + " -> " + self.courses_by_name[course_name].name)
                 prereq_course.next_courses.append(self.courses_by_name[course_name])
-
-
-
-        #self.courses_by_level[0] = Course("Egreso", self.duration+1)
-        #self.courses_by_name[self.courses_by_level[0].name] = self.courses_by_level[0]
