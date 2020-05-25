@@ -28,6 +28,33 @@ class Course:
         self.total_dropped = 0 #Total of students that dropped the career at this course
         self.total_expelled = 0 #Total of students that were expelled by failing this course
 
+    def enroll_students(self):
+        students_all_prereq_fulfilled = list()
+
+        for student_key in self.students_incomplete_prerequisites.keys():
+            stdnt = self.students_incomplete_prerequisites[student_key]
+            #Check if student fulfill prerequisites of the course
+            #Student has a dict of approved courses
+            amount = 0
+            print("Course:" + self.name + "\tCant=" + str(self.prerequisites))
+            for pre_course in self.prerequisites:
+                if pre_course.name in stdnt.courses_approved.keys():
+                    #print("Course:" + self.name + "\tPrereq YES:" + pre_course.name + "\Student:" +  str(stdnt.student_id))
+                    amount+=1
+                else:
+                    break
+                    #print("Course:" + self.name + "\tPrereq NOT:" + pre_course.name + "\Student:" +  str(stdnt.student_id))
+            
+            #Fulfill prerequisites? Then copied to current_students
+            if amount == len(self.prerequisites) and amount != 0:
+                print("stdnt CUMPLE:" + str(stdnt.student_id) + "\tCourse:" + self.name)
+                self.current_students[stdnt.student_id] = stdnt
+                students_all_prereq_fulfilled.append(stdnt)
+
+        #Remove enrolled students from prerequisites dict
+        for student in students_all_prereq_fulfilled:
+            self.students_incomplete_prerequisites.pop(student.student_id)
+
 
     def simulate_final(self):
         print("Simulando aprobacion estudiantes curso " + self.name + " - qty:" + str(len(self.current_students)) + " - course_type:" + str(self.course_type))
@@ -39,12 +66,34 @@ class Course:
             chance_fail = self.current_students[student_key].course_type_skills[self.course_type-1]["fail_chance"]
             #Approves?
             nbr = random.uniform(0,1)
+            stdnt = self.current_students[student_key]
             if( nbr > chance_fail):
-                #print("Approve:" + str(self.current_students[ student_key ]) + " nbr=" + str(nbr) + " chance fail:" + str(chance_fail))
+                print("Approve:" + str(self.current_students[ student_key ]) + " nbr=" + str(nbr) + " chance fail:" + str(chance_fail))
+                self.total_approved += 1
                 approved.append(self.current_students[ student_key ])
+                stdnt.courses_approved[self.name] = self
             else:
-                #print("Fail:" + str(self.current_students[ student_key ]) + " nbr=" + str(nbr) + " chance fail:" + str(chance_fail))
+                #If Failed, then register failed course and times has failed current course
+                self.total_failed+=1
+                if self.name in stdnt.courses_failed:
+                    stdnt.courses_failed[self.name]+=1
+                else:
+                    stdnt.courses_failed[self.name]=1
+
+                #Register amount of times failed by each students
+                if stdnt.courses_failed[self.name] == 1:
+                    self.total_failed_once += 1
+                elif stdnt.courses_failed[self.name] == 2:
+                    self.total_failed_twice += 1
+                elif stdnt.courses_failed[self.name] == 3:
+                    self.total_failed_thrice += 1
+
+                print("FAIL:" + str(self.current_students[ student_key ]) + " nbr=" + str(nbr) + " chance fail:" + str(chance_fail))
                 failed.append(self.current_students[ student_key ])
+
+        #Remove students that approved the course from current_students
+        #Failed students remain in current course
+        [self.current_students.pop(key.student_id) for key in approved]
 
         return approved, failed
 

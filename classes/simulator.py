@@ -34,6 +34,7 @@ class Simulator:
         #Cargar la malla de cursos
         self.curricular_mesh = CurricularMesh(info_courses)
         
+        #Unique student ID (starts in 1)
         self.id_to_students = 1
 
 
@@ -58,23 +59,29 @@ class Simulator:
                 courses.current_students.update(admission_students)
 
         #Iterating over courses of the current semester
+        #defininf approved/failed students to each course of the semester
         semester_courses = self.curricular_mesh.courses_by_semester
         for course in semester_courses[semester_number]:
             # Detemine failed and approved students
             # Obtain approved and failed students as lists
-            approved, failed = course.simulate_final()
+            approved, _ = course.simulate_final()
             
+            for next_course in course.next_courses:
+                #Assign current course's approved students to next course
+                #dict() of students with incomplete prerequisites
+                for stdnt in approved:
+                    print("Current course:" + course.name + "\tNext:" + next_course.name)
+                    next_course.students_incomplete_prerequisites[stdnt.student_id] = stdnt
         
-
-        #OK:    for each course (depending of the semester (first/second)), do:
-        #OK:    Detemine failed and approved students                          
-        #   Approved are moved (added to the new, removed from current) to a
-        #           transitory list at the current course.
-        #   Failed students remain in the students list of the current course.
-        #   Approved students are moved to the incomplete_prerequisites dict() and
-        #       if prerequisites for the course are satisfied by the students, they
-        #       are moved to the current students list (now containing failed and new
-        #       (approved previous course))
+        #Iterating over courses of the current semester
+        #Students that fulfill the prerequisites of each of the next courses
+        #is moved to the course.current_student dict()
+        semester_courses = self.curricular_mesh.courses_by_semester
+        for course in semester_courses[semester_number]:
+            for next_course in course.next_courses:
+                #Assign current course's approved students to next course
+                #dict() of students with incomplete prerequisites
+                next_course.enroll_students()
 
 
         return 0
@@ -99,6 +106,7 @@ class Simulator:
                 self.curricular_mesh.admission.current_students = self.load_students_by_profile( self.init_year, self.init_semester)
                 #print("Semester " + semesters[semester] + " i=" + str(semester) + " - admitted " + str(len(self.curricular_mesh.admission.current_students)))
 
+            #Simulate semester by semester
             self.simulate_semester(semester, semesters[semester])
 
             # Graduation
@@ -107,4 +115,4 @@ class Simulator:
         for sem in self.curricular_mesh.courses_by_semester.keys():
             print("Semester " + str(sem))
             for course in self.curricular_mesh.courses_by_semester[sem]:
-                print( "Curso:" + course.name + " - Level:" + str(course.name))
+                print( "Curso:" + course.name + "\tLevel:" + str(course.name) + "\tTotal_Approved:" + str(course.total_approved) + "\tTotal_Failed:" + str(course.total_failed))

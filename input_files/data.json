@@ -1,6 +1,6 @@
 {
     "name" : "Nombre",
-    "sim_duration" : 9,
+    "sim_duration" : 4,
     "init_year" : 2013,
     "init_semester" : 1
 }
