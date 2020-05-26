@@ -36,7 +36,7 @@ class Course:
             #Check if student fulfill prerequisites of the course
             #Student has a dict of approved courses
             amount = 0
-            print("Course:" + self.name + "\tCant=" + str(self.prerequisites))
+            print("COURSE - Course:" + self.name + "\tAmount of Prerequisites=" + str(len(self.prerequisites)))
             for pre_course in self.prerequisites:
                 if pre_course.name in stdnt.courses_approved.keys():
                     #print("Course:" + self.name + "\tPrereq YES:" + pre_course.name + "\Student:" +  str(stdnt.student_id))
@@ -47,7 +47,7 @@ class Course:
             
             #Fulfill prerequisites? Then copied to current_students
             if amount == len(self.prerequisites) and amount != 0:
-                print("stdnt CUMPLE:" + str(stdnt.student_id) + "\tCourse:" + self.name)
+                print("COURSE - Student:" + str(stdnt.student_id) + "\tFulfills Prerequisites for Course:" + self.name)
                 self.current_students[stdnt.student_id] = stdnt
                 students_all_prereq_fulfilled.append(stdnt)
 
@@ -57,7 +57,7 @@ class Course:
 
 
     def simulate_final(self):
-        print("Simulando aprobacion estudiantes curso " + self.name + " - qty:" + str(len(self.current_students)) + " - course_type:" + str(self.course_type))
+        print("COURSE - Simulating approval/failure for Course:" + self.name + " - qty:" + str(len(self.current_students)) + "\tcourse_type:" + str(self.course_type))
         
         #Simulating aproved/failed
         approved = list()
@@ -68,7 +68,7 @@ class Course:
             nbr = random.uniform(0,1)
             stdnt = self.current_students[student_key]
             if( nbr > chance_fail):
-                print("Approve:" + str(self.current_students[ student_key ]) + " nbr=" + str(nbr) + " chance fail:" + str(chance_fail))
+                print("COURSE - Student:" + str(self.current_students[ student_key ]) + "\APPROVES random_chance=" + str(nbr) + "\tStudent chance of failure:" + str(chance_fail))
                 self.total_approved += 1
                 approved.append(self.current_students[ student_key ])
                 stdnt.courses_approved[self.name] = self
@@ -88,7 +88,7 @@ class Course:
                 elif stdnt.courses_failed[self.name] == 3:
                     self.total_failed_thrice += 1
 
-                print("FAIL:" + str(self.current_students[ student_key ]) + " nbr=" + str(nbr) + " chance fail:" + str(chance_fail))
+                print("COURSE - Student:" + str(self.current_students[ student_key ]) + "\FAILS random_chance=" + str(nbr) + "\tStudent chance of failure:" + str(chance_fail))
                 failed.append(self.current_students[ student_key ])
 
         #Remove students that approved the course from current_students

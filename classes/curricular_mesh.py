@@ -20,7 +20,7 @@ class CurricularMesh:
         """
 
         self.career = mesh_data["career"]
-        self.duration = mesh_data["duration"] #Doesn't consider admission and graduation
+        self.duration = mesh_data["duration"] #Doesn't consider admission (level 0) and graduation (level duration+1)
         self.list_of_courses_data = mesh_data["courses"] #List of every course (info) in the mesh (as on the file)
 
         self.courses_by_name = dict() #Hold pairs of "Course Name" keys and References to the Course Object.
@@ -35,6 +35,7 @@ class CurricularMesh:
         self.courses_by_level = {new_list: [] for new_list in range(mesh_data["duration"]+2)}
 
         self.admission = None
+        self.graduation = None
 
 
 
@@ -61,7 +62,7 @@ class CurricularMesh:
 
             #Courses according to their level (1, 2,...,n)
             self.courses_by_level[course_item["level"]].append(course)
-            #print("Level: " + str(course_item["level"]) + " - Course: " + str(course))
+            #print("CURRICULAR_MESH - Level:" + str(course_item["level"]) + "\tCourse: " + str(course))
 
             #Set prerequisites for each course
             for prereq in course_item["prerequisites"]:
@@ -69,9 +70,11 @@ class CurricularMesh:
 
         #Defines the admission and set it as course on the mesh
         self.admission = self.courses_by_level[0][0]
+        self.graduation = self.courses_by_level[self.duration+1][0]
+        print(self.graduation)
 
         #Set next courses of each course. I.e: sets which courses the current course is a prerequisite of.
         for course_name in self.courses_by_name:
             for prereq_course in self.courses_by_name[course_name].prerequisites:
-                #print(prereq_course.name + " -> " + self.courses_by_name[course_name].name)
+                #print("CURRICULAR_MESH - Course:" + prereq_course.name + "\t is prerequisite of course:" + self.courses_by_name[course_name].name)
                 prereq_course.next_courses.append(self.courses_by_name[course_name])

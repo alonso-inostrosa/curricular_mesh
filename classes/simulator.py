@@ -50,7 +50,7 @@ class Simulator:
     # Simulate semester considering courses are tought one semester a year
     def simulate_semester(self, semester_to_simulate, semester_name):
         semester_number = 1 if semester_to_simulate % 2 == 1 else 2
-        print("Simulating semester:" + str(semester_to_simulate) + " - Semester Number:" + str(semester_number) +  " - Semester Name:" + semester_name)
+        print("SIMULATOR - Simulating semester:" + str(semester_to_simulate) + " - Semester Number:" + str(semester_number) +  " - Semester Name:" + semester_name)
         
         #If semester is 1, move admission students to first semester courses
         if semester_number == 1:
@@ -70,7 +70,7 @@ class Simulator:
                 #Assign current course's approved students to next course
                 #dict() of students with incomplete prerequisites
                 for stdnt in approved:
-                    print("Current course:" + course.name + "\tNext:" + next_course.name)
+                    print("SIMULATOR - Current course:" + course.name + "\tNext:" + next_course.name)
                     next_course.students_incomplete_prerequisites[stdnt.student_id] = stdnt
         
         #Iterating over courses of the current semester
@@ -81,13 +81,14 @@ class Simulator:
             for next_course in course.next_courses:
                 #Assign current course's approved students to next course
                 #dict() of students with incomplete prerequisites
+                print("SIMULATOR - Trying to Enroll-Students from Course:" + course.name + "\tinto course:" + next_course.name)
                 next_course.enroll_students()
 
 
         return 0
 
     def simulate(self):
-        print("Starting simulation from:" + str(self.init_year) + "/" + str(self.init_semester) + " for:" + str(self.duration) + " semesters")
+        print("SIMULATOR - Starting simulation from:" + str(self.init_year) + "/" + str(self.init_semester) + " for:" + str(self.duration) + " semesters")
         #Generate a list of pairs Year/Semesters. I.e: 2020/1, 2020/2, ...
         semesters = my_semesters(self.init_year, self.init_semester, self.duration)
 
@@ -99,7 +100,7 @@ class Simulator:
 
         #Semester begin in 1
         for semester in range(1,self.duration+1):
-            print("Attempting to simulate semester " + semesters[semester])
+            print("SIMULATOR - Attempting to simulate semester " + semesters[semester])
             # Admission
             # Create/Load first year students, and assign to addmission "course"
             if semester % 2 == 1:
@@ -111,8 +112,11 @@ class Simulator:
 
             # Graduation
 
-        print("***********")
+        print("SIMULATOR - Ending Simulation after semester:" + str(self.duration))
+        print("SIMULATOR - ***********Metrics***********")
         for sem in self.curricular_mesh.courses_by_semester.keys():
-            print("Semester " + str(sem))
+            print("SIMULATOR - Semester " + str(sem))
             for course in self.curricular_mesh.courses_by_semester[sem]:
-                print( "Curso:" + course.name + "\tLevel:" + str(course.name) + "\tTotal_Approved:" + str(course.total_approved) + "\tTotal_Failed:" + str(course.total_failed))
+                print( "SIMULATOR - Course:" + course.name + "\tLevel:" + str(course.name) + "\tTotal_Approved:" + str(course.total_approved) + "\tTotal_Failed:" + str(course.total_failed))
+
+        #TODO: Print metrics from students
