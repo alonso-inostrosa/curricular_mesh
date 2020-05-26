@@ -16,7 +16,7 @@
                     "fail_chance": 0.09
                 }
             ],
-            "quantity" : 1
+            "quantity" : 2
         },
         {
             "student_type":1,
@@ -34,7 +34,7 @@
                     "fail_chance": 0.065
                 }
             ],
-            "quantity" : 0
+            "quantity" : 10
         }
     ]
 }

@@ -68,7 +68,7 @@ class Course:
             nbr = random.uniform(0,1)
             stdnt = self.current_students[student_key]
             if( nbr > chance_fail):
-                print("COURSE - Student:" + str(self.current_students[ student_key ]) + "\tAPPROVES random_chance=" + str(nbr) + "\tStudent chance of failure:" + str(chance_fail))
+                print("COURSE - Student:" + str(self.current_students[ student_key ]) + "\tAPPROVES random_chance={:.3f}".format(nbr) + "\tStudent chance of failure:" + str(chance_fail))
                 self.total_approved += 1
                 approved.append(self.current_students[ student_key ])
                 stdnt.courses_approved[self.name] = self
@@ -88,7 +88,7 @@ class Course:
                 elif stdnt.courses_failed[self.name] == 3:
                     self.total_failed_thrice += 1
 
-                print("COURSE - Student:" + str(self.current_students[ student_key ]) + "\tFAILS random_chance=" + str(nbr) + "\tStudent chance of failure:" + str(chance_fail))
+                print("COURSE - Student:" + str(self.current_students[ student_key ]) + "\tFAILS random_chance={:.3f}".format(nbr) + "\tStudent chance of failure:" + str(chance_fail))
                 failed.append(self.current_students[ student_key ])
 
         #Remove students that approved the course from current_students
