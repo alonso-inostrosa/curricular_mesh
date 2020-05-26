@@ -117,6 +117,6 @@ class Simulator:
         for sem in self.curricular_mesh.courses_by_semester.keys():
             print("SIMULATOR - Semester " + str(sem))
             for course in self.curricular_mesh.courses_by_semester[sem]:
-                print( "SIMULATOR - Course:" + course.name + "\tLevel:" + str(course.name) + "\tTotal_Approved:" + str(course.total_approved) + "\tTotal_Failed:" + str(course.total_failed))
+                print( "SIMULATOR - Course:" + course.name + "\tLevel:" + str(course.name) + "\tTotal_Approved:" + str(course.total_approved) + "\tTotal_Failed:" + str(course.total_failed) + "\tFailed Once:" + str(course.total_failed_once) + "\tFailed Twice:" + str(course.total_failed_twice) + "\tFailed Thrice:" + str(course.total_failed_thrice))
 
         #TODO: Print metrics from students
